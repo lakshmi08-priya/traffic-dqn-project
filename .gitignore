@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+models/*.pt
+results/csv/*.csv
+results/graphs/*.png
+sumo/**/*.log
+*.tripinfo.xml
+*.summary.xml
+*.queue.xml
+.vscode/
