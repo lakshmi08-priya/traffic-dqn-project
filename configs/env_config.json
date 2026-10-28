@@ -1,0 +1,18 @@
+{
+  "tls_id": "C",
+  "scenario_dir": "sumo/scenarios",
+  "default_scenario": "medium",
+  "incoming_lanes": [
+    "N_C_0", "N_C_1", "E_C_0", "E_C_1",
+    "S_C_0", "S_C_1", "W_C_0", "W_C_1"
+  ],
+  "green_phases": [0, 3],
+  "yellow_time": 4,
+  "min_green": 10,
+  "max_green": 60,
+  "delta_time": 5,
+  "episode_seconds": 3600,
+  "lane_capacity": 26,
+  "wait_norm": 600,
+  "reward_scale": 100
+}
