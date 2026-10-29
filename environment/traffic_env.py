@@ -44,7 +44,7 @@ class TrafficEnv:
         self._running = False
 
     # ------------------------------------------------------------------ reset
-    def reset(self, scenario=None, seed=0):
+    def reset(self, scenario=None, seed=0, tripinfo_path=None):
         """Start a fresh SUMO run and return the initial state."""
         self.close()
         scenario = scenario or self.cfg["default_scenario"]
@@ -53,8 +53,11 @@ class TrafficEnv:
             raise FileNotFoundError(f"Scenario file not found: {cfg_file}")
 
         sumo = sumolib.checkBinary("sumo")
-        traci.start([sumo, "-c", cfg_file, "--no-step-log", "true",
-                     "--no-warnings", "true", "--seed", str(seed)])
+        cmd = [sumo, "-c", cfg_file, "--no-step-log", "true",
+               "--no-warnings", "true", "--seed", str(seed)]
+        if tripinfo_path:
+            cmd += ["--tripinfo-output", tripinfo_path]
+        traci.start(cmd)
         self._running = True
 
         self.scenario, self.seed = scenario, seed
@@ -178,3 +181,5 @@ class TrafficEnv:
             except Exception:
                 pass
             self._running = False
+    def vehicles_in_network(self):
+        return traci.vehicle.getIDCount() if self._running else 0
