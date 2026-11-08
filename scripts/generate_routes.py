@@ -8,7 +8,13 @@ ROUTE_DIR = os.path.join(ROOT, "sumo", "routes")
 CFG_DIR = os.path.join(ROOT, "sumo", "scenarios")
 
 # Total vehicles per hour entering the intersection (split equally over 4 arms).
-SCENARIOS = {"low": 600, "medium": 1200, "high": 1800}
+# Vehicles per hour entering on each arm.
+SCENARIOS = {
+    "low":    {"N": 150, "E": 150, "S": 150, "W": 150},   # 600 total
+    "medium": {"N": 300, "E": 300, "S": 300, "W": 300},   # 1200 total
+    "high":   {"N": 450, "E": 450, "S": 450, "W": 450},   # 1800 total
+    "uneven": {"N": 900, "E": 250, "S": 900, "W": 250},   # 2300 total, heavy north-south
+}
 DURATION = 3600  # seconds of vehicle generation
 ARMS = ["N", "E", "S", "W"]
 
@@ -25,9 +31,9 @@ TURN_PROBS = {"straight": 0.6, "right": 0.2, "left": 0.2}
 def generate(scenario, seed):
     """Poisson arrivals on every arm: gaps between cars are exponentially distributed."""
     rng = random.Random(f"{scenario}-{seed}")  # same (scenario, seed) -> same traffic
-    rate = SCENARIOS[scenario] / 4 / 3600.0    # vehicles per second per arm
     vehicles = []
     for arm in ARMS:
+        rate = SCENARIOS[scenario][arm] / 3600.0   # vehicles per second on this arm
         t = 0.0
         while True:
             t += rng.expovariate(rate)

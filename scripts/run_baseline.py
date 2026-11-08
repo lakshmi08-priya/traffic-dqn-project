@@ -10,7 +10,7 @@ from environment.traffic_env import TrafficEnv  # noqa: E402
 from evaluation.fixed_time import FixedTimePolicy, run_episode  # noqa: E402
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--scenarios", nargs="+", default=["low", "medium", "high"])
+parser.add_argument("--scenarios", nargs="+", default=["low", "medium", "high","uneven"])
 parser.add_argument("--seeds", type=int, default=5)
 parser.add_argument("--green-time", type=int, default=30)
 parser.add_argument("--episode-seconds", type=int, default=3600)
