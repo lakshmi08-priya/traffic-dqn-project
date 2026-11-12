@@ -77,10 +77,11 @@ def generate(scenario, seed):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--seeds", type=int, default=5, help="how many seeds per scenario")
+    parser.add_argument("--start", type=int, default=0, help="first seed number")
     args = parser.parse_args()
     os.makedirs(ROUTE_DIR, exist_ok=True)
     os.makedirs(CFG_DIR, exist_ok=True)
     for scenario in SCENARIOS:
-        for seed in range(args.seeds):
+        for seed in range(args.start, args.start + args.seeds):
             name, n = generate(scenario, seed)
             print(f"{name}: {n} vehicles")

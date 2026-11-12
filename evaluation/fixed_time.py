@@ -12,20 +12,20 @@ class FixedTimePolicy:
     def __init__(self, green_time=30):
         self.green_time = green_time
 
-    def act(self, info):
+    def act(self, state, info):
         return SWITCH if info["green_elapsed"] >= self.green_time else KEEP
 
 
 def run_episode(policy, scenario, seed, env=None, episode_seconds=3600):
-    """Run one full episode with `policy` (needs .act(info)) and return a metrics dict."""
+    """Run one full episode with `policy` (needs .act(state, info)) and return a metrics dict."""
     env = env or TrafficEnv(overrides={"episode_seconds": episode_seconds})
     with tempfile.TemporaryDirectory() as tmp:
         trip_path = os.path.join(tmp, "tripinfo.xml")
-        env.reset(scenario, seed, tripinfo_path=trip_path)
+        state = env.reset(scenario, seed, tripinfo_path=trip_path)
         info = {"green_elapsed": 0}
         queue_samples, done = [], False
         while not done:
-            _, _, done, info = env.step(policy.act(info))
+            state, _, done, info = env.step(policy.act(state, info))
             queue_samples.append(info["mean_queue"])
         left = env.vehicles_in_network()
         env.close()                      # tripinfo is flushed on close

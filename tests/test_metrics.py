@@ -28,5 +28,5 @@ def test_percent_improvement():
 
 def test_fixed_time_policy():
     p = FixedTimePolicy(30)
-    assert p.act({"green_elapsed": 25}) == KEEP
-    assert p.act({"green_elapsed": 30}) == SWITCH
+    assert p.act(None, {"green_elapsed": 25}) == KEEP
+    assert p.act(None, {"green_elapsed": 30}) == SWITCH

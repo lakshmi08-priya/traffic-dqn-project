@@ -10,3 +10,5 @@ sumo/**/*.log
 *.summary.xml
 *.queue.xml
 .vscode/
+sumo/routes/*_seed1[0-9][0-9].rou.xml
+sumo/scenarios/*_seed1[0-9][0-9].sumocfg
